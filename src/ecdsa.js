@@ -83,6 +83,7 @@ function sign (hash, d) {
   var G = secp256k1.G
 
   var r, s
+  var i = 0
   deterministicGenerateK(hash, x, function (k) {
     var Q = G.multiply(k)
 
@@ -99,10 +100,13 @@ function sign (hash, d) {
 
   // enforce low S values, see bip62: 'low s values in signatures'
   if (s.compareTo(N_OVER_TWO) > 0) {
+    i += 1
     s = n.subtract(s)
   }
 
-  return new ECSignature(r, s)
+  var sig = new ECSignature(r, s)
+  sig.i = i
+  return sig
 }
 
 function verify (hash, signature, Q) {

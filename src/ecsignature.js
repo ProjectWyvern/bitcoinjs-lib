@@ -58,6 +58,10 @@ ECSignature.parseScriptSignature = function (buffer) {
 }
 
 ECSignature.prototype.toCompact = function (i, compressed) {
+  if (typeof i === 'undefined') {
+    i = this.i
+  }
+
   if (compressed) {
     i += 4
   }
